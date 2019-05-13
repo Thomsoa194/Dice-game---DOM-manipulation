@@ -3,8 +3,10 @@
 var scores, roundScore, activePlayer, gamePlaying;
 
 init();
-var lastDice;
 
+/*
+var lastDice;
+*/
 
 
  
@@ -19,32 +21,34 @@ var lastDice;
     if (gamePlaying) {
             // 1. random number
        
-       var dice = Math.floor(Math.random() * 6) + 1;
+       var dice1 = Math.floor(Math.random() * 6) + 1;
+       var dice2 = Math.floor(Math.random() * 6) + 1;
     // 2. Display result
-    var diceDOM = document.querySelector('.dice'); //This is our selection
-    diceDOM.style.display = 'block';
-    diceDOM.src = 'dice-' + dice + '.png';
-    
+    document.getElementById('dice-1').style.display = 'block';
+    document.getElementById('dice-2').style.display = 'block';//This is our selection
+    document.getElementById('dice-1').src = 'dice-' + dice1 + '.png';
+    document.getElementById('dice-2').src = 'dice-' + dice2 + '.png';
+    /*
     /// 3. Update the round score, but only if the rolled number is not a one .
     if (dice === 6 && lastDice ===6) {
         scores[activePlayer] = 0;
         document.querySelector('#score-' + activePlayer).textContent = 0;
         nextPlayer();
-    }
-    else if (dice !== 1) {
+    }*/
+    if (dice1 !== 1 && dice2 != 1) {
         // Add score This is the difference operator. 
-        roundScore += dice; // This is the same as typing the expression like this roundScore = roundScore + dice. We have access to this variable because it was defined in the global scope. Think back to the scope chain
+        roundScore += dice1 + dice2; // This is the same as typing the expression like this roundScore = roundScore + dice. We have access to this variable because it was defined in the global scope. Think back to the scope chain
         // Udpate in the UI
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
     } else  {
      nextPlayer();
     }
     
-    lastDice = dice;
-    
+        
     
  }
  });
+
  
 
 
@@ -74,7 +78,10 @@ var lastDice;
     // We have code from before which switches the player, but our code ought to be dry. So let's implement a new function called nextPlayer
     if (scores[activePlayer] >= winningScore) { //Check if player won the game. we're going to replace the player label with the name winner
         document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
-        document.querySelector('.dice').style.display = 'none';// It's not best to mix CSS with JS. If we have a lot of styles to change
+        document.getElementById('dice-1').style.display = 'none';
+        document.getElementById('dice-2').style.display = 'none';// It's not best to mix CSS with JS. If we have a lot of styles to change
+       
+    
         document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
         document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
         gamePlaying = false;
@@ -101,7 +108,8 @@ var lastDice;
         document.querySelector('.player-1-panel').classList.toggle('active');
         // We also need to make it change back when the turn return to player-1 We use toggle for this.
         // We want to hide the dice when a player roles a one
-        document.querySelector('.dice').style.display = 'none';
+        document.getElementById('dice-1').style.display = 'none';
+        document.getElementById('dice-2').style.display = 'none';
         }
  
  document.querySelector('.btn-new').addEventListener('click', init);
@@ -111,6 +119,9 @@ var lastDice;
         activePlayer= 0;
         roundScore = 0;
         gamePlaying = true;
+        
+        document.getElementById('dice-1').style.display = 'none';
+        document.getElementById('dice-2').style.display = 'none';
     
         document.getElementById('score-0').textContent  = '0';
         document.getElementById('score-1').textContent  = '0';
